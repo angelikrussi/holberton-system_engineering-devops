@@ -1,0 +1,1 @@
+we create the bash command that tells us the directory of the file.
