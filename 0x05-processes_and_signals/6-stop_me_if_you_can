@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# The content of the current directory-In a list format
+trap "exit" INT
