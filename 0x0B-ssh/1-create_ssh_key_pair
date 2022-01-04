@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#  Create an SSH key pair
+
+Host ubuntu@35.196.20.175
+     HostName 35.196.20.175
+     User ubuntu
+     IdentityFile ~/.ssh/school
