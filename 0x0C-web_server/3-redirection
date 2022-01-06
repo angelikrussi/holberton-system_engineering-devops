@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# 3. Redirection
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+sudo service nginx start
+newlines="\\\trewrite ^/redirect_me https://twitter.com/artesanaljanne/status/1393725121077129216 permanent;"
+sudo sed -i "26i $newlines" /etc/nginx/sites-available/default
+sudo service nginx restart
+sudo service nginx reload
