@@ -1,29 +1,11 @@
 #!/usr/bin/env bash
-# Server config. 
+# Server config web-01 and web-02
 
-# install nginx
-sudo apt-get update -y
-sudo apt-get upgrade -y
-sudo apt-get install nginx -y
-sudo service nginx start
-
-# Default and error pages
-echo "Hello World" > /var/www/html/index.html
-echo "Ceci n'est pas une page" > /var/www/html/error404.html
-
-# Run default and error pages
-match="server_name _;"
-new="\n\tlocation /redirect_me {\n\t\treturn 301 http://janne-artesanal.tech;\n\t}"
-sed -i "/$match/a\\$new" /etc/nginx/sites-available/default
-
-match="server_name _;"
-new="\n\terror_page 404 /error404.html;\n"
-sed -i "/$match/a\\$new" /etc/nginx/sites-available/default
-
-# Header that sends the hostname
-match="then fall back to displaying a 404"
-new="\n\t\tadd_header X-Served-By $HOSTNAME;\n"
-sed -i "/$match/a\\$new" /etc/nginx/sites-available/default
-
-# Restart the server
+apt-get update -y
+apt-get install nginx -y
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://twitter.com/artesanaljanne/status/1393725121077129216 permanent;' /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/h404.html
+sed -i '/listen 80 default_server/a error_page 404 /h404.html;\nlocation = /h404.html {\n\troot /var/www/html;\n\tinternal;\n}' /etc/nginx/sites-available/default
+sed -i "/listen 80 default_server/a \\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
 service nginx restart
